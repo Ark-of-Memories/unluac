@@ -561,14 +561,28 @@ class LHeaderType55 extends LHeaderType {
   
   @Override
   public List<Directive> get_directives() {
-    throw new UnsupportedOperationException();
+    return Arrays.asList(new Directive[] {
+        Directive.FORMAT,
+        Directive.INT_SIZE,
+        Directive.INSTRUCTION_SIZE,
+        Directive.INTEGER_FORMAT,
+        Directive.FLOAT_FORMAT,
+        Directive.ENDIANNESS,
+     });
   }
   
   @Override
   public void write(OutputStream out, BHeader header, LHeader object) throws IOException {
     write_format(out, header, object);
     write_tail(out, header, object);
-    throw new UnsupportedOperationException();
+    write_int_size(out, header, object);
+    header.vinteger.write(out, header, header.vinteger.create(-TEST_INTEGER));
+    write_instruction_size(out, header, object);
+    header.vinteger.write(out, header, new BIntegerType50(false, 4, false).create(TEST_INSTRUCTION));
+    out.write(header.linteger.size);
+    header.linteger.write(out, header, header.linteger.create(-TEST_INTEGER));
+    out.write(header.lfloat.size);
+    header.lfloat.write(out, header, header.lfloat.create(-TEST_FLOAT));
   }
   
 }

@@ -476,12 +476,29 @@ class LFunctionType55 extends LFunctionType54 {
   
   @Override
   public List<Directive> get_directives() {
-    throw new UnsupportedOperationException();
+    return Arrays.asList(new Directive[] {
+        Directive.SOURCE,
+        Directive.LINEDEFINED,
+        Directive.LASTLINEDEFINED,
+        Directive.NUMPARAMS,
+        Directive.IS_VARARG,
+        Directive.MAXSTACKSIZE,
+      });
   }
   
   @Override
   public void write(OutputStream out, BHeader header, LFunction object) throws IOException {
-    throw new UnsupportedOperationException();
+    header.integer.write(out, header, new BInteger(object.linedefined));
+    header.integer.write(out, header, new BInteger(object.lastlinedefined));
+    out.write(object.numParams);
+    out.write(object.vararg);
+    out.write(object.maximumStackSize);
+    write_code(out, header, object);
+    header.constant.writeList(out, header, object.constants);
+    write_upvalues(out, header, object);
+    header.function.writeList(out, header, object.functions);
+    header.string.write(out, header, object.name);
+    write_debug(out, header, object);
   }
   
 }

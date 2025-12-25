@@ -198,4 +198,8 @@ class BIntegerTypeWrapper extends BIntegerType {
     throw new UnsupportedOperationException();
   }
   
+  public int getSize() {
+    return size;
+  }
+  
 }

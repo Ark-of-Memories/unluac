@@ -522,34 +522,40 @@ public class ControlFlowHandler {
     }
     
     for(int line = 1; line <= code.length; line++) {
-      switch(code.op(line)) {
+      Op op = code.op(line);
+      switch(op) {
         case FORPREP:
-        case FORPREP54: {
+        case FORPREP54:
+        case FORPREP55: {
           
           int A = code.A(line);
           int target = code.target(line);
           int begin = line + 1;
           int end = target + 1;
+          int varCount = 3;
+          if(op == Op.FORPREP55) {
+            varCount = 2;
+          }
           
           boolean forvarPreClose = false;
           boolean forvarPostClose = false;
           boolean closeIsInScope = false;
           int closeLine = target - 1;
-          if(closeLine >= line + 1 && is_close(state, closeLine) && get_close_value(state, closeLine) == A + 3) {
+          if(closeLine >= line + 1 && is_close(state, closeLine) && get_close_value(state, closeLine) == A + varCount) {
             forvarPreClose = true;
             if(!state.r.isNoDebug) {
-              int declScopeEnd = r.getDeclaration(A + 3, line).end;
+              int declScopeEnd = r.getDeclaration(A + varCount, line).end;
               if(get_close_type(state, closeLine) == CloseType.CLOSE54) {
                 if(declScopeEnd == closeLine) closeIsInScope = true;
               }
             }
             closeLine--;
-          } else if(end <= code.length && is_close(state, end) && get_close_value(state, end) == A + 3) {
+          } else if(end <= code.length && is_close(state, end) && get_close_value(state, end) == A + varCount) {
             forvarPostClose = true;
           }
           
           ForBlock block = new ForBlock51(
-            state.function, begin, end, A,
+            state.function, begin, end, A, varCount,
             get_close_type(state, closeLine), closeLine, forvarPreClose, forvarPostClose, closeIsInScope
           );
           
@@ -574,20 +580,28 @@ public class ControlFlowHandler {
           remove_branch(state, state.branches[target + 1]);
           break;
         }
-        case TFORPREP54: {
+        case TFORPREP54:
+        case TFORPREP55: {
+          boolean v55 = (op == Op.TFORPREP55);
+          
           int target = code.target(line);
           int A = code.A(line);
           int C = code.C(target);
           
+          int controlCount = 4;
+          if(v55) controlCount = 3;
+          
           boolean forvarClose = false;
           int close = target - 1;
-          if(close >= line + 1 && is_close(state, close) && get_close_value(state, close) == A + 4) {
+          if(close >= line + 1 && is_close(state, close) && get_close_value(state, close) == A + controlCount) {
             forvarClose = true;
             close--;
           }
           
           boolean closeIsInScope = false;
-          if(!state.r.isNoDebug && target + 2 <= code.length && is_close(state, target + 2)) {
+          if(v55) {
+            closeIsInScope = true;
+          } else if(!state.r.isNoDebug && target + 2 <= code.length && is_close(state, target + 2)) {
             // Prior to 5.4.5, scope ends on the close line
             // After 5.4.5, scope ends before the close line
             // See: https://www.lua.org/bugs.html#5.4.4-6
@@ -599,7 +613,8 @@ public class ControlFlowHandler {
           TForBlock block = TForBlock.make54(
             state.function, line + 1, target + 2, A, C,
             get_close_type(state, close), close,
-            forvarClose, closeIsInScope
+            forvarClose, closeIsInScope,
+            controlCount
           );
           block.handleVariableDeclarations(r);
           blocks.add(block);
@@ -1873,7 +1888,7 @@ public class ControlFlowHandler {
       case GETUPVAL:
       case GETTABUP: case GETTABUP54:
       case GETTABLE: case GETTABLE54: case GETI: case GETFIELD:
-      case NEWTABLE50: case NEWTABLE: case NEWTABLE54:
+      case NEWTABLE50: case NEWTABLE: case NEWTABLE54: case NEWTABLE55:
       case ADD: case SUB: case MUL: case DIV: case IDIV: case MOD: case POW: case BAND: case BOR: case BXOR: case SHL: case SHR:
       case UNM: case NOT: case LEN: case BNOT:
       case CONCAT: case CONCAT54:
@@ -1907,22 +1922,22 @@ public class ControlFlowHandler {
       case TAILCALL: case TAILCALL54:
       case RETURN: case RETURN54: case RETURN0: case RETURN1:
       case FORLOOP: case FORLOOP54:
-      case FORPREP: case FORPREP54:
+      case FORPREP: case FORPREP54: case FORPREP55:
       case TFORCALL: case TFORCALL54:
       case TFORLOOP: case TFORLOOP52: case TFORLOOP54:
-      case TFORPREP: case TFORPREP54:
+      case TFORPREP: case TFORPREP54: case TFORPREP55:
       case CLOSE:
       case TBC: // TODO: ?
         return true;
       case TEST50:
         return code.A(line) != code.B(line) && r.isLocal(code.A(line), line);
-      case SELF: case SELF54:
+      case SELF: case SELF54: case SELF55:
         return r.isLocal(code.A(line), line) || r.isLocal(code.A(line) + 1, line);
       case EQ: case LT: case LE:
       case EQ54: case LT54: case LE54:
       case EQK: case EQI: case LTI: case LEI: case GTI: case GEI:
       case TEST: case TEST54:
-      case SETLIST50: case SETLISTO: case SETLIST: case SETLIST52: case SETLIST54:
+      case SETLIST50: case SETLISTO: case SETLIST: case SETLIST52: case SETLIST54: case SETLIST55:
       case VARARGPREP:
       case EXTRAARG:
       case EXTRABYTE:

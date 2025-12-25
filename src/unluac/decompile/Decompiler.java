@@ -10,6 +10,7 @@ import java.util.Set;
 
 import unluac.Configuration;
 import unluac.Version;
+import unluac.Version.VarArgType;
 import unluac.decompile.block.Block;
 import unluac.decompile.block.DoEndBlock;
 import unluac.decompile.block.OuterBlock;
@@ -268,6 +269,7 @@ public class Decompiler {
       initdeclcount += vararg & 1;
       break;
     case ELLIPSIS:
+    case NAMED:
       break;
     }
     for(int i = initdeclcount; i < declList.length; i++) {
@@ -455,6 +457,16 @@ public class Decompiler {
         operations.add(new RegisterSet(line, A, new TableLiteral(arraySize, B == 0 ? 0 : (1 << (B - 1)))));
         break;
       }
+      case NEWTABLE55: {
+        if(code.op(line + 1) != Op.EXTRAARG) throw new IllegalStateException();
+        int arraySize = code.vC(line);
+        if(code.k(line)) {
+          arraySize += code.Ax(line + 1) * (code.getExtractor().vC.max() + 1);
+        }
+        int vB = code.vB(line);
+        operations.add(new RegisterSet(line, A, new TableLiteral(arraySize, vB == 0 ? 0 : (1 << (vB - 1)))));
+        break;
+      }
       case SELF: {
         // We can later determine if : syntax was used by comparing subexpressions with ==
         Expression common = r.getExpression(B, line);
@@ -467,6 +479,13 @@ public class Decompiler {
         Expression common = r.getExpression(B, line);
         operations.add(new RegisterSet(line, A + 1, common));
         operations.add(new RegisterSet(line, A, new TableReference(r, line, common, r.getKExpression54(C, code.k(line), line))));
+        break;
+      }
+      case SELF55: {
+     // We can later determine if : syntax was used by comparing subexpressions with ==
+        Expression common = r.getExpression(B, line);
+        operations.add(new RegisterSet(line, A + 1, common));
+        operations.add(new RegisterSet(line, A, new TableReference(r, line, common, f.getConstantExpression(C))));
         break;
       }
       case ADD:
@@ -725,8 +744,8 @@ public class Decompiler {
         operations.add(new ReturnOperation(line, new Expression[] {r.getExpression(A, line)}));
         break;
       case FORLOOP: case FORLOOP54:
-      case FORPREP: case FORPREP54:
-      case TFORPREP: case TFORPREP54:
+      case FORPREP: case FORPREP54: case FORPREP55:
+      case TFORPREP: case TFORPREP54: case TFORPREP55:
       case TFORCALL: case TFORCALL54:
       case TFORLOOP: case TFORLOOP52: case TFORLOOP54:
         /* Do nothing ... handled with branches */
@@ -774,6 +793,20 @@ public class Decompiler {
         handleSetList(operations, state, line, A, B, C);
         break;
       }
+      case SETLIST55: {
+        int vB = code.vB(line);
+        int vC = code.vC(line);
+        if(code.k(line)) {
+          if(line + 1 > code.length || code.op(line + 1) != Op.EXTRAARG) throw new IllegalStateException();
+          vC += code.Ax(line + 1) * (code.getExtractor().vC.max() + 1);
+          flags[line + 1] |= Flag.SKIP.bit;
+        }
+        if(vB == 0) {
+          vB = registers - A - 1;
+        }
+        handleSetList(operations, state, line, A, vB, vC);
+        break;
+      }
       case TBC:
         r.getDeclaration(A, line).tbc = true;
         break;
@@ -786,7 +819,12 @@ public class Decompiler {
         break;
       }
       case VARARGPREP:
-        /* Do nothing ... internal operation */
+        if(getVersion().varargtype.get() == VarArgType.NAMED && r.registers > function.numParams) {
+          Declaration decl = r.getDeclaration(function.numParams, line);
+          if(decl != null) {
+            decl.namedVararg = true;
+          }
+        }
         break;
       case VARARG: {
         boolean multiple = (B != 2);

@@ -42,6 +42,7 @@ public class Version {
     ARG,
     HYBRID,
     ELLIPSIS,
+    NAMED,
   }
   
   public static enum HeaderType {
@@ -50,12 +51,14 @@ public class Version {
     LUA52,
     LUA53,
     LUA54,
+    LUA55,
   }
   
   public static enum StringType {
     LUA50,
     LUA53,
     LUA54,
+    LUA55,
   }
   
   public static enum UpvalueType {
@@ -69,6 +72,7 @@ public class Version {
     LUA52,
     LUA53,
     LUA54,
+    LUA55,
   }
   
   public static enum TypeMapType {
@@ -84,6 +88,7 @@ public class Version {
     LUA52,
     LUA53,
     LUA54,
+    LUA55,
   }
   
   public static enum UpvalueDeclarationType {
@@ -161,7 +166,7 @@ public class Version {
     this.minor = minor;
     name = major + "." + minor;
     final boolean luaj = config.luaj;
-    if(major == 5 && minor >= 0 && minor <= 4) {
+    if(major == 5 && minor >= 0 && minor <= 5) {
       switch(minor) {
         case 0:
           varargtype = new Setting<>(VarArgType.ARG);
@@ -310,6 +315,37 @@ public class Version {
           environmenttable = new Setting<>("_ENV");
           useifbreakrewrite = new Setting<>(true);
           useifgotorewrite = new Setting<>(Maybe.MAYBE);
+          usegoto = new Setting<>(true);
+          rkoffset = new Setting<>(null);
+          allownegativeint = new Setting<Boolean>(true);
+          constantslengthmode = new Setting<>(ListLengthMode.STRICT);
+          functionslengthmode = new Setting<>(ListLengthMode.STRICT);
+          locallengthmode = new Setting<>(ListLengthMode.STRICT);
+          upvaluelengthmode = new Setting<>(ListLengthMode.IGNORE);
+          break;
+        case 5:
+          varargtype = new Setting<>(VarArgType.NAMED);
+          useupvaluecountinheader = new Setting<>(true);
+          headertype = HeaderType.LUA55;
+          stringtype = StringType.LUA55;
+          upvaluetype = UpvalueType.LUA54;
+          functiontype = FunctionType.LUA55;
+          typemap = TypeMapType.LUA54;
+          opcodemap = OpcodeMapType.LUA55;
+          defaultop = Op.DEFAULT54;
+          instructionformat = new Setting<>(InstructionFormat.LUA54);
+          outerblockscopeadjustment = new Setting<>(0);
+          extendedrepeatscope = new Setting<Boolean>(false);
+          closesemantics = new Setting<CloseSemantics>(CloseSemantics.LUA54);
+          upvaluedeclarationtype = new Setting<>(UpvalueDeclarationType.HEADER);
+          fortarget = new Setting<>(null);
+          tfortarget = new Setting<>(null);
+          whileformat = new Setting<>(WhileFormat.TOP_CONDITION);
+          allowpreceedingsemicolon = new Setting<>(true);
+          usenestinglongstrings = new Setting<>(false);
+          environmenttable = new Setting<>("_ENV");
+          useifbreakrewrite = new Setting<>(true);
+          useifgotorewrite = new Setting<>(Maybe.NO);
           usegoto = new Setting<>(true);
           rkoffset = new Setting<>(null);
           allownegativeint = new Setting<Boolean>(true);

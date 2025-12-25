@@ -77,7 +77,8 @@ public class TForBlock extends ContainerBlock {
   public static TForBlock make54(
     LFunction function, int begin, int end, int register, int length,
     CloseType closeType, int closeLine,
-    boolean forvarClose, boolean closeIsInScope)
+    boolean forvarClose, boolean closeIsInScope,
+    int controlCount)
   {
     int internalScopeEnd = end - 1;
     int explicitScopeEnd = end - 3;
@@ -94,7 +95,8 @@ public class TForBlock extends ContainerBlock {
     return new TForBlock(
       function, begin, end,
       closeType, closeLine,
-      register, register + 3, register + 4, register + 3 + length,
+      register, register + controlCount - 1,
+      register + controlCount, register + controlCount + length - 1,
       begin - 2, internalScopeEnd,
       begin - 1, explicitScopeEnd,
       innerScopeEnd

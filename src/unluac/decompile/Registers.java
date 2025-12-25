@@ -75,7 +75,7 @@ public class Registers {
   
   public boolean isNewLocal(int register, int line) {
     Declaration decl = decls[register][line];
-    return decl != null && decl.begin == line && !decl.forLoop && !decl.forLoopExplicit;
+    return decl != null && decl.begin == line && !decl.forLoop && !decl.forLoopExplicit && !decl.namedVararg;
   }
   
   public List<Declaration> getNewLocals(int line) {

@@ -135,6 +135,7 @@ public class Version {
   public final Setting<Boolean> useifbreakrewrite;
   public final Setting<Maybe> useifgotorewrite;
   public final Setting<Boolean> usegoto;
+  public final Setting<Boolean> usedeadclose;
   public final Setting<Integer> rkoffset;
   public final Setting<Boolean> allownegativeint;
   public final Setting<ListLengthMode> constantslengthmode;
@@ -192,6 +193,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(false);
           useifgotorewrite = new Setting<>(Maybe.NO);
           usegoto = new Setting<>(false);
+          usedeadclose = new Setting<>(false);
           rkoffset = new Setting<>(250);
           allownegativeint = new Setting<Boolean>(false);
           constantslengthmode = new Setting<>(ListLengthMode.STRICT);
@@ -223,6 +225,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(false);
           useifgotorewrite = new Setting<>(Maybe.NO);
           usegoto = new Setting<>(false);
+          usedeadclose = new Setting<>(false);
           rkoffset = new Setting<>(256);
           allownegativeint = new Setting<Boolean>(luaj);
           constantslengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
@@ -254,6 +257,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(true);
           useifgotorewrite = new Setting<>(Maybe.YES);
           usegoto = new Setting<>(true);
+          usedeadclose = new Setting<>(false);
           rkoffset = new Setting<>(256);
           allownegativeint = new Setting<Boolean>(luaj);
           constantslengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
@@ -285,6 +289,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(true);
           useifgotorewrite = new Setting<>(Maybe.YES);
           usegoto = new Setting<>(true);
+          usedeadclose = new Setting<>(false);
           rkoffset = new Setting<>(256);
           allownegativeint = new Setting<Boolean>(true);
           constantslengthmode = new Setting<>(ListLengthMode.STRICT);
@@ -316,6 +321,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(true);
           useifgotorewrite = new Setting<>(Maybe.MAYBE);
           usegoto = new Setting<>(true);
+          usedeadclose = new Setting<>(false);
           rkoffset = new Setting<>(null);
           allownegativeint = new Setting<Boolean>(true);
           constantslengthmode = new Setting<>(ListLengthMode.STRICT);
@@ -347,6 +353,7 @@ public class Version {
           useifbreakrewrite = new Setting<>(true);
           useifgotorewrite = new Setting<>(Maybe.NO);
           usegoto = new Setting<>(true);
+          usedeadclose = new Setting<>(true);
           rkoffset = new Setting<>(null);
           allownegativeint = new Setting<Boolean>(true);
           constantslengthmode = new Setting<>(ListLengthMode.STRICT);

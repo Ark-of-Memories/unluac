@@ -810,7 +810,7 @@ public class Decompiler {
       case TBC:
         r.getDeclaration(A, line).tbc = true;
         break;
-      case CLOSE:
+      case CLOSE: case CLOSE55:
         break;
       case CLOSURE: {
         LFunction f = functions[Bx];

@@ -345,7 +345,7 @@ public class OpcodeMap {
         map[51] = Op.NOT;
         map[52] = Op.LEN;
         map[53] = Op.CONCAT54;
-        map[54] = Op.CLOSE;
+        map[54] = Op.CLOSE55;
         map[55] = Op.TBC;
         map[56] = Op.JMP54;
         map[57] = Op.EQ54;

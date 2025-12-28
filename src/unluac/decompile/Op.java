@@ -51,7 +51,7 @@ public enum Op {
   FORPREP("forprep", OpV.LUA51 | OpV.LUA52 | OpV.LUA53, OperandFormat.AR, OperandFormat.sBxJ),
   TFORLOOP("tforloop", OpV.LUA50 | OpV.LUA51, OperandFormat.AR, OperandFormat.C),
   SETLIST("setlist", OpV.LUA51, OperandFormat.AR, OperandFormat.B, OperandFormat.C),
-  CLOSE("close", OpV.LUA50 | OpV.LUA51 | OpV.LUA5455, OperandFormat.AR),
+  CLOSE("close", OpV.LUA50 | OpV.LUA51 | OpV.LUA54, OperandFormat.AR),
   CLOSURE("closure", OpV.LUA50 | OpV.LUA51 | OpV.LUA52 | OpV.LUA53 | OpV.LUA5455, OperandFormat.AR, OperandFormat.BxF),
   VARARG("vararg", OpV.LUA51 | OpV.LUA52 | OpV.LUA53, OperandFormat.AR, OperandFormat.B),
   // Lua 5.2 Opcodes
@@ -154,6 +154,7 @@ public enum Op {
   FORPREP55("forprep", OpV.LUA55, OperandFormat.AR, OperandFormat.BxJ),
   TFORPREP55("tforprep", OpV.LUA55, OperandFormat.AR, OperandFormat.BxJ),
   SETLIST55("setlist", OpV.LUA55, OperandFormat.AR, OperandFormat.vB, OperandFormat.vC, OperandFormat.k),
+  CLOSE55("close", OpV.LUA55, OperandFormat.AR),
   GETVARG("getvarg", OpV.LUA55, OperandFormat.AR, OperandFormat.BR, OperandFormat.CR),
   ERRNNIL("errnnil", OpV.LUA55, OperandFormat.AR, OperandFormat.BxK),
   // Special
@@ -310,7 +311,7 @@ public enum Op {
       case TFORCALL: case TFORCALL54:
       case TFORLOOP: case TFORLOOP52: case TFORLOOP54:
       case TBC:
-      case CLOSE:
+      case CLOSE: case CLOSE55:
       case EXTRAARG:
       case SELF: case SELF54: case SELF55:
       case EQ: case LT: case LE:

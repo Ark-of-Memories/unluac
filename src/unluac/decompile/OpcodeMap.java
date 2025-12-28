@@ -323,8 +323,8 @@ public class OpcodeMap {
         map[29] = Op.BANDK;
         map[30] = Op.BORK;
         map[31] = Op.BXORK;
-        map[32] = Op.SHRI;
-        map[33] = Op.SHLI;
+        map[32] = Op.SHLI;
+        map[33] = Op.SHRI;
         map[34] = Op.ADD54;
         map[35] = Op.SUB54;
         map[36] = Op.MUL54;

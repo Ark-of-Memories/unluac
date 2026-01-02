@@ -1980,6 +1980,7 @@ public class ControlFlowHandler {
       case TFORLOOP: case TFORLOOP52: case TFORLOOP54:
       case TFORPREP: case TFORPREP54: case TFORPREP55:
       case CLOSE: case CLOSE55:
+      case ERRNNIL:
       case TBC: // TODO: ?
         return true;
       case TEST50:

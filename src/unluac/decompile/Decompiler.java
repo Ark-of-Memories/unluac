@@ -67,7 +67,8 @@ public class Decompiler {
   
   public static enum Flag {
     SKIP,
-    LABELS;
+    LABELS,
+    GLOBAL;
     
     public final int bit;
     
@@ -807,6 +808,11 @@ public class Decompiler {
         handleSetList(operations, state, line, A, vB, vC);
         break;
       }
+      case ERRNNIL:
+        if(line + 1 <= code.length) {
+          flags[line + 1] |= Flag.GLOBAL.bit;
+        }
+        break;
       case TBC:
         r.getDeclaration(A, line).tbc = true;
         break;
@@ -878,6 +884,9 @@ public class Decompiler {
       Statement stmt = stmts.get(0);
       if(stmt instanceof Assignment) {
         assign = (Assignment) stmt;
+        if((flags[line] & Flag.GLOBAL.bit) != 0) {
+          assign.globalDeclare();
+        }
       }
       //System.out.println("-- added statemtent @" + line);
       if(assign != null) {
@@ -894,6 +903,9 @@ public class Decompiler {
           if(isMoveIntoTarget(r, nextLine)) {
             //System.out.println("-- found multiassign @" + nextLine);
             Target target = getMoveIntoTargetTarget(r, nextLine, line + 1);
+            //if((flags[nextLine] & Flag.GLOBAL.bit) != 0) {
+            //  assign.globalDeclare();
+            //}
             Expression value = getMoveIntoTargetValue(r, nextLine, line + 1); //updated?
             assign.addFirst(target, value, nextLine);
             flags[nextLine] |= Flag.SKIP.bit;
@@ -901,6 +913,9 @@ public class Decompiler {
           } else if(op == Op.MMBIN || op == Op.MMBINI || op == Op.MMBINK || code.isUpvalueDeclaration(nextLine)) {
             // skip
             nextLine++;
+          } else if(nextLine + 1 < block.end && code.op(nextLine + 1) == Op.ERRNNIL) {
+            // skip
+            nextLine += 2;
           } else {
             break;
           }

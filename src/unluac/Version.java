@@ -142,6 +142,7 @@ public class Version {
   public final Setting<ListLengthMode> functionslengthmode;
   public final Setting<ListLengthMode> locallengthmode;
   public final Setting<ListLengthMode> upvaluelengthmode;
+  public final Setting<Boolean> useglobaldecl;
   
   private final int major;
   private final int minor;
@@ -200,6 +201,7 @@ public class Version {
           functionslengthmode = new Setting<>(ListLengthMode.STRICT);
           locallengthmode = new Setting<>(ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(ListLengthMode.STRICT);
+          useglobaldecl = new Setting<>(false);
           break;
         case 1:
           varargtype = new Setting<>(VarArgType.HYBRID);
@@ -232,6 +234,7 @@ public class Version {
           functionslengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
           locallengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
+          useglobaldecl = new Setting<>(false);
           break;
         case 2:
           varargtype = new Setting<>(VarArgType.ELLIPSIS);
@@ -264,6 +267,7 @@ public class Version {
           functionslengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
           locallengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(luaj ? ListLengthMode.ALLOW_NEGATIVE : ListLengthMode.STRICT);
+          useglobaldecl = new Setting<>(false);
           break;
         case 3:
           varargtype = new Setting<>(VarArgType.ELLIPSIS);
@@ -296,6 +300,7 @@ public class Version {
           functionslengthmode = new Setting<>(ListLengthMode.STRICT);
           locallengthmode = new Setting<>(ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(ListLengthMode.STRICT);
+          useglobaldecl = new Setting<>(false);
           break;
         case 4:
           varargtype = new Setting<>(VarArgType.ELLIPSIS);
@@ -328,6 +333,7 @@ public class Version {
           functionslengthmode = new Setting<>(ListLengthMode.STRICT);
           locallengthmode = new Setting<>(ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(ListLengthMode.IGNORE);
+          useglobaldecl = new Setting<>(false);
           break;
         case 5:
           varargtype = new Setting<>(VarArgType.NAMED);
@@ -360,6 +366,7 @@ public class Version {
           functionslengthmode = new Setting<>(ListLengthMode.STRICT);
           locallengthmode = new Setting<>(ListLengthMode.STRICT);
           upvaluelengthmode = new Setting<>(ListLengthMode.IGNORE);
+          useglobaldecl = new Setting<>(true);
           break;
         default: throw new IllegalStateException();
       }
@@ -391,6 +398,9 @@ public class Version {
     reservedWords.add("while");
     if(usegoto.get()) {
       reservedWords.add("goto");
+    }
+    if(useglobaldecl.get()) {
+      reservedWords.add("global");
     }
     
     this.lheadertype = LHeaderType.get(headertype);

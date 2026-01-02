@@ -319,6 +319,7 @@ public enum Op {
       case EQK: case EQI: case LTI: case LEI: case GTI: case GEI:
       case TEST: case TEST54:
       case SETLIST50: case SETLISTO: case SETLIST: case SETLIST52: case SETLIST54: case SETLIST55:
+      case ERRNNIL:
       case VARARGPREP:
         return -1;
       case CALL: {

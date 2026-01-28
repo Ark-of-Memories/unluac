@@ -855,6 +855,11 @@ public class Decompiler {
         operations.add(new MultipleRegisterSet(line, A, A + C - 2, value));
         break;
       }
+      case GETVARG: {
+        Expression value = new TableReference(r, line, r.getExpression(B, line), r.getExpression(C, line));
+        operations.add(new RegisterSet(line, A, value));
+        break;
+      }
       case EXTRAARG:
       case EXTRABYTE:
         /* Do nothing ... handled by previous instruction */

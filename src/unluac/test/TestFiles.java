@@ -283,6 +283,7 @@ public class TestFiles {
     new TestFile("53_expression"),
     new TestFile("53_expression02"),
     new TestFile("54_tbc01"),
+    new TestFile("55_namedvararg01"),
   };
   
   public static TestSuite suite = new TestSuite(null, ".\\test\\src\\", tests);

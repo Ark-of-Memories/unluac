@@ -283,6 +283,7 @@ public enum Op {
       case CONCAT: case CONCAT54:
       case CLOSURE:
       case TEST50: case TESTSET: case TESTSET54:
+      case GETVARG:
         return ex.A.extract(codepoint);
       case MMBIN: case MMBINI: case MMBINK:
         return -1; // depends on previous instruction

@@ -1947,6 +1947,7 @@ public class ControlFlowHandler {
       case CONCAT: case CONCAT54:
       case CLOSURE:
       case TESTSET: case TESTSET54:
+      case GETVARG:
         return r.isLocal(code.A(line), line);
       case ADD54: case SUB54: case MUL54: case DIV54: case IDIV54: case MOD54: case POW54: case BAND54: case BOR54: case BXOR54: case SHL54: case SHR54:
       case ADDK: case SUBK: case MULK: case DIVK: case IDIVK: case MODK: case POWK: case BANDK: case BORK: case BXORK:

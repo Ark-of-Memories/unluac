@@ -270,38 +270,6 @@ public class Version {
           useglobaldecl = new Setting<>(false);
           break;
         case 3:
-          varargtype = new Setting<>(VarArgType.ELLIPSIS);
-          useupvaluecountinheader = new Setting<>(true);
-          headertype = HeaderType.LUA53;
-          stringtype = StringType.LUA53;
-          upvaluetype = UpvalueType.LUA50;
-          functiontype = FunctionType.LUA53;
-          typemap = TypeMapType.LUA53;
-          opcodemap = OpcodeMapType.LUA53;
-          defaultop = Op.DEFAULT;
-          instructionformat = new Setting<>(InstructionFormat.LUA51);
-          outerblockscopeadjustment = new Setting<>(0);
-          extendedrepeatscope = new Setting<Boolean>(false);
-          closesemantics = new Setting<CloseSemantics>(CloseSemantics.JUMP);
-          upvaluedeclarationtype = new Setting<>(UpvalueDeclarationType.HEADER);
-          fortarget = new Setting<>(null);
-          tfortarget = new Setting<>(Op.TFORCALL);
-          whileformat = new Setting<>(WhileFormat.TOP_CONDITION);
-          allowpreceedingsemicolon = new Setting<>(true);
-          usenestinglongstrings = new Setting<>(false);
-          environmenttable = new Setting<>("_ENV");
-          useifbreakrewrite = new Setting<>(true);
-          useifgotorewrite = new Setting<>(Maybe.YES);
-          usegoto = new Setting<>(true);
-          usedeadclose = new Setting<>(false);
-          rkoffset = new Setting<>(256);
-          allownegativeint = new Setting<Boolean>(true);
-          constantslengthmode = new Setting<>(ListLengthMode.STRICT);
-          functionslengthmode = new Setting<>(ListLengthMode.STRICT);
-          locallengthmode = new Setting<>(ListLengthMode.STRICT);
-          upvaluelengthmode = new Setting<>(ListLengthMode.STRICT);
-          useglobaldecl = new Setting<>(false);
-          break;
         case 4:
           varargtype = new Setting<>(VarArgType.ELLIPSIS);
           useupvaluecountinheader = new Setting<>(true);

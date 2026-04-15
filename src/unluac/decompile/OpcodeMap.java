@@ -205,17 +205,17 @@ public class OpcodeMap {
         break;
       case LUA54:
         map = new Op[83];
-        map[0] = Op.MOVE;
-        map[1] = Op.LOADI;
-        map[2] = Op.LOADF;
-        map[3] = Op.LOADK;
-        map[4] = Op.LOADKX;
-        map[5] = Op.LOADFALSE;
-        map[6] = Op.LFALSESKIP;
-        map[7] = Op.LOADTRUE;
-        map[8] = Op.LOADNIL52;
-        map[9] = Op.GETUPVAL;
-        map[10] = Op.SETUPVAL;
+        map[0] = Op.LOADI;
+        map[1] = Op.LOADF;
+        map[2] = Op.LOADK;
+        map[3] = Op.LOADKX;
+        map[4] = Op.LOADFALSE;
+        map[5] = Op.LFALSESKIP;
+        map[6] = Op.LOADTRUE;
+        map[7] = Op.LOADNIL52;
+        map[8] = Op.GETUPVAL;
+        map[9] = Op.SETUPVAL;
+        map[10] = Op.MOVE;
         map[11] = Op.GETTABUP54;
         map[12] = Op.GETTABLE54;
         map[13] = Op.GETI;
